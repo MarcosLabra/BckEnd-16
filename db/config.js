@@ -13,7 +13,7 @@ const knexProductos = require('knex')({
 const knexMensajes = require('knex')({
     client: 'sqlite3',
     connection: {
-        filename: './db/msj.db'
+        filename: './db/msj.sqlite'
     },
     useNullAsDefault: true
 });
