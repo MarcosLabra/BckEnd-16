@@ -4,14 +4,15 @@ const { Server: HttpServer } = require('http');
 const { Server: IOServer } = require('socket.io');
 const Productos = require('./db/productos.js')
 const Mensajes = require ('./db/mensajes.js')
+const { knexProductos, knexMensajes } = require('./db/config.js')
 
 
 const app = express()
 const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
 
-const productos = new Productos('./db/productos.json')
-const mensajes = new Mensajes('./db/mensajes.json')
+const productos = new Productos('knexProductos')
+const mensajes = new Mensajes('knexMensajes')
 
 io.on('connection', async socket => {
   console.log('Usuario conectado')

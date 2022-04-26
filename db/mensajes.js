@@ -1,35 +1,19 @@
-const fs = require('fs')
-
 class Mensajes {
-  constructor(fileName) {
-    this.fileName = fileName;
+  constructor(knex) {
+    this.knex = knex;
   }
 
-  async save(msj) {
-    try {
-      if (fs.existsSync(this.fileName)) {
-        const mensajes = JSON.parse(await fs.promises.readFile(this.fileName, 'utf-8'));
-        mensajes.push(msj);
-        fs.writeFileSync(this.fileName, JSON.stringify(mensajes));
-      } else {
-        const mensajes = [];
-        mensajes.push(msj);
-        fs.writeFileSync(this.fileName, JSON.stringify(mensajes));
-      }
-    }
-    catch (error) {
-      console.log(error);
-    }
+  async save(product) {
+    this.knex('mensajes').insert(product)
+      .then(art => art)
+      .catch(err => { console.log(err); throw err });
+
   }
 
-  getAll() {
-    try {
-      const contenido = fs.readFileSync(this.fileName, 'utf-8');
-      return JSON.parse(contenido);
-    }
-    catch (error) {
-      console.log(error);
-    }
+  async getAll() {
+    this.knex('mensajes').select('*')
+      .then(rows => rows)
+      .catch(err => { console.log(err); throw err });
   }
 }
 
