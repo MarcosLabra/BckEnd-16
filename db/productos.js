@@ -1,7 +1,7 @@
 class Productos {
     constructor(knex, table) {
         this.knex = knex;
-        this.table = table
+        this.table = table;
         this.knex.schema.hasTable(this.table).then(exists => {
             if (!exists) {
                 this.knex.schema.createTable(this.table, table => {
@@ -12,7 +12,6 @@ class Productos {
                 })
                     .then(() => console.log('Tabla productos creada'))
                     .catch(err => { console.log(err); throw err })
-                    .finally(() => this.knex.destroy());
             }
         })
     }
@@ -29,7 +28,7 @@ class Productos {
             let arrProd = await this.knex.from(this.table).select("*")
             return arrProd
         }
-        catch (err){
+        catch (err) {
             console.log(err);
             throw err
         }
